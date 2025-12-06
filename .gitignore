@@ -1,0 +1,22 @@
+# Java class files
+*.class
+
+# Compiled output
+bin/
+out/
+target/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+*.jar
+*.war
