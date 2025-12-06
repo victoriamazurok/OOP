@@ -1,4 +1,6 @@
-package com.premiere;
+package com.videoplatform;
+
+import com.google.inject.Inject; // Додаємо імпорт для @Inject
 
 /**
  * Клас Author реалізує роль автора у системі.
@@ -12,6 +14,7 @@ public class Author extends User {
     /**
      * Конструктор для ініціалізації автора
      */
+    @Inject // Додаємо анотацію @Inject для конструктора
     public Author(String name, String email, String channel) {
         super(name, email);
         this.channel = channel;

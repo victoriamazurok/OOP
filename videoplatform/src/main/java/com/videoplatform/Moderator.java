@@ -1,4 +1,6 @@
-package com.premiere;
+package com.videoplatform;
+
+import com.google.inject.Inject; // Додаємо імпорт для @Inject
 
 /**
  * Клас Moderator реалізує роль модератора у системі.
@@ -12,6 +14,7 @@ public class Moderator extends User implements Moderatable {
     /**
      * Конструктор для ініціалізації модератора
      */
+    @Inject // Додаємо анотацію @Inject для конструктора
     public Moderator(String name, String email, String department) {
         super(name, email);
         this.department = department;

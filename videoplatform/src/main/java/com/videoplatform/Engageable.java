@@ -1,4 +1,4 @@
-package com.premiere;
+package com.videoplatform;
 
 /**
  * Інтерфейс Engageable визначає поведінку для взаємодії користувачів з контентом.

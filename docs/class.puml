@@ -1,29 +1,73 @@
 classDiagram
-    class Глядач {
-        +String ім'я
-        +підписка()
-        +перегляд()
+    class User {
+        - String name
+        - String email
+        + User(name: String, email: String)
+        + String getName()
+        + String getEmail()
+        + performAction()
     }
 
-    class Автор {
-        +String ім'я
-        +плануватиПрем'єру()
-        +запуститиЧат()
-        +податиАпеляцію()
+    class Viewer {
+        - boolean subscribed
+        - int watchedCount
+        + Viewer(name: String, email: String)
+        + subscribe()
+        + watchContent(content: Content)
+        + commentOnContent(comment: String)
+        + performAction()
     }
 
-    class Модератор {
-        +String ім'я
-        +блокуватиСпам()
-        +модеруватиЧат()
-        +модеруватиКонтент()
+    class Author {
+        - int publishedCount
+        - String channel
+        + Author(name: String, email: String, channel: String)
+        + schedulePremiere(content: Content)
+        + startChat(topic: String)
+        + submitAppeal(reason: String)
+        + publishContent(content: Content)
+        + performAction()
     }
 
-    class Контент {
-        +String назва
-        +показати()
+    class Moderator {
+        - int blockedCount
+        - String department
+        + Moderator(name: String, email: String, department: String)
+        + blockSpam(content: String)
+        + moderateChat(message: String)
+        + deleteInappropriateComment(comment: String)
+        + performAction()
     }
 
-    Глядач --> Контент
-    Автор --> Контент
-    Модератор --> Контент
+    class Content {
+        - String title
+        - String description
+        - int viewCount
+        - List<String> comments
+        + Content(title: String, description: String)
+        + addView()
+        + getViewCount()
+        + getTitle()
+        + getDescription()
+        + addComment(name: String, comment: String)
+        + getComments()
+    }
+
+    class PremierSystem {
+        - List<User> users
+        - List<Content> content
+        - String systemName
+        + PremierSystem(systemName: String)
+        + registerUser(user: User)
+        + publishContent(content: Content)
+        + printStatistics()
+        + printUsersInfo()
+        + printContentInfo()
+    }
+
+    Viewer --|> User
+    Author --|> User
+    Moderator --|> User
+    PremierSystem o-- "users" User
+    PremierSystem o-- "content" Content
+    Content "1" -- "*" String : comments

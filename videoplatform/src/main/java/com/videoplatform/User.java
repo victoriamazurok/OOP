@@ -1,4 +1,4 @@
-package com.premiere;
+package com.videoplatform;
 
 /**
  * Абстрактний клас User визначає базову поведінку для всіх користувачів системи.

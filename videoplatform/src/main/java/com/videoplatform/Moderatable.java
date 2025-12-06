@@ -1,4 +1,4 @@
-package com.premiere;
+package com.videoplatform;
 
 /**
  * Інтерфейс Moderatable визначає поведінку для модерації контенту.

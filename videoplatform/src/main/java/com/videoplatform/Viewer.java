@@ -1,4 +1,6 @@
-package com.premiere;
+package com.videoplatform;
+
+import com.google.inject.Inject; // Додаємо імпорт для @Inject
 
 /**
  * Клас Viewer реалізує роль глядача у системі.
@@ -12,6 +14,7 @@ public class Viewer extends User implements Engageable {
     /**
      * Конструктор для ініціалізації глядача
      */
+    @Inject // Додаємо анотацію @Inject для конструктора
     public Viewer(String name, String email) {
         super(name, email);
         this.subscribed = false;
