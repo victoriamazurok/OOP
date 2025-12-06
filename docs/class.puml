@@ -57,7 +57,9 @@ classDiagram
         - List<User> users
         - List<Content> content
         - String systemName
-        + PremierSystem(systemName: String)
+        - VideoService videoService
+        + setVideoService(videoService: VideoService)
+        + setSystemName(systemName: String)
         + registerUser(user: User)
         + publishContent(content: Content)
         + printStatistics()
