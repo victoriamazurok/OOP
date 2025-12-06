@@ -10,6 +10,17 @@ public class PremierSystem {
     private String systemName;
     private VideoService videoService;  // Додаємо залежність для VideoService
 
+    // Закоментуємо старий конструктор
+    /*
+    @Inject
+    public PremierSystem(String systemName, VideoService videoService) {
+        this.systemName = systemName;
+        this.users = new ArrayList<>(); // Ініціалізація списку користувачів
+        this.content = new ArrayList<>(); // Ініціалізація списку контенту
+        this.videoService = videoService;
+    }
+    */
+
     // Додаємо setter для VideoService
     @Inject
     public void setVideoService(VideoService videoService) {
@@ -28,6 +39,8 @@ public class PremierSystem {
     public void registerUser(User user) {
         users.add(user);
         System.out.println("[РЕЄСТРАЦІЯ]: Користувач зареєстрований: " + user.getName());
+        // Можна додати запис до бази даних
+        videoService.saveVideo(new Video(user.getName()));  // Приклад використання VideoService
     }
 
     // Метод для публікації контенту
