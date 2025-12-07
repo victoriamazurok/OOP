@@ -1,42 +1,47 @@
 package com.videoplatform;
 
-import com.google.inject.Inject;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VideoService {
 
     private final Connection connection;
 
-    @Inject
     public VideoService(Connection connection) {
         this.connection = connection;
-        createTableIfNotExists();  // Створюємо таблицю, якщо її немає
+        createTableIfNotExists();
     }
 
-    // Метод для створення таблиці, якщо вона не існує
     private void createTableIfNotExists() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS videos (" +
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS paychecks (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "title TEXT NOT NULL" +
+                "name TEXT NOT NULL," +
+                "amount REAL NOT NULL" +
                 ");";
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(createTableSQL);  // Виконання запиту для створення таблиці
+        try (PreparedStatement stmt = connection.prepareStatement(createTableSQL)) {
+            stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to create table", e);
         }
     }
 
-    // Метод для збереження відео в базі даних
+    public List<Paycheck> getPaychecks() {
+        // Example hardcoded paychecks for now
+        List<Paycheck> paychecks = new ArrayList<>();
+        paychecks.add(new Paycheck("John Doe", 5000.0));
+        paychecks.add(new Paycheck("Jane Smith", 5500.0));
+        return paychecks;
+    }
+
     public void saveVideo(Video video) {
         String sql = "INSERT INTO videos (title) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, video.getTitle());
-            statement.executeUpdate();  // Виконання запиту для вставки відео
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to save video", e);
         }

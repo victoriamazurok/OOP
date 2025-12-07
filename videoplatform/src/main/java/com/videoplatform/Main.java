@@ -2,6 +2,7 @@ package com.videoplatform;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.videoplatform.webserver.PayrollWebView;
 
 public class Main {
     public static void main(String[] args) {
@@ -65,8 +66,17 @@ public class Main {
         system.printUsersInfo();
         system.printContentInfo();
 
+        // Запуск веб-сервера
+        runWebMode(injector);
+
         System.out.println("═══════════════════════════════════════════════════════");
         System.out.println("  ПРОГРАМА УСПІШНО ЗАВЕРШЕНА");
         System.out.println("═══════════════════════════════════════════════════════");
+    }
+
+    private static void runWebMode(Injector injector) {
+        // Отримуємо екземпляр веб-вигляду та запускаємо сервер на порту 8080
+        PayrollWebView webView = injector.getInstance(PayrollWebView.class);
+        webView.start(8080);
     }
 }
