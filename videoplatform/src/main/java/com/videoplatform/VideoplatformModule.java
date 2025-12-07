@@ -3,15 +3,22 @@ package com.videoplatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.videoplatform.webserver.PayrollWebView;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Модуль для конфігурації залежностей Guice для проекту
+ */
 public class VideoplatformModule extends AbstractModule {
 
     @Override
     protected void configure() {
         bind(String.class).toInstance("YouTube Premier");
+        bind(PaymentService.class).in(Singleton.class);
+        bind(PayrollController.class).in(Singleton.class);
+        bind(PayrollWebView.class).in(Singleton.class);
     }
 
     @Provides
@@ -28,17 +35,5 @@ public class VideoplatformModule extends AbstractModule {
     @Singleton
     public VideoService provideVideoService(Connection connection) {
         return new VideoService(connection);
-    }
-
-    @Provides
-    @Singleton
-    public JavalinWebServer provideWebServer() {
-        return new JavalinWebServer(provideVideoService(provideConnection()));
-    }
-
-    @Provides
-    @Singleton
-    public PayrollWebView providePayrollWebView() {
-        return new PayrollWebView(provideVideoService(provideConnection()));
     }
 }

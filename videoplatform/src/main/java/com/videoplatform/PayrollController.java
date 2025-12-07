@@ -3,16 +3,24 @@ package com.videoplatform;
 import com.google.inject.Inject;
 import java.util.List;
 
+/**
+ * Контролер для обробки запитів про зарплату.
+ * Взаємодіє з PaymentService для отримання даних з бази.
+ */
 public class PayrollController {
 
-    private final VideoService videoService;
+    private final PaymentService paymentService;
 
     @Inject
-    public PayrollController(VideoService videoService) {
-        this.videoService = videoService;
+    public PayrollController(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
-    public List<Paycheck> getPaychecks() {
-        return videoService.getPaychecks();  // Замінили getAllPaychecks() на getPaychecks()
+    /**
+     * Повертає список всіх квитанцій про зарплату
+     * @return список квитанцій
+     */
+    public List<Paycheck> getAllPaychecks() {
+        return paymentService.getAllPaychecks();
     }
 }

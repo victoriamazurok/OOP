@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Програма підприємства</title>
+    <title>Система управління зарплатою</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Квитанції про зарплату</h1>
-
-        <div id="message" class="message"></div>
+        <p class="subtitle">Список всіх виплачених квитанцій</p>
 
         <div class="table-container">
             <table id="paychecks-table">
                 <thead>
                     <tr>
                         <th>№</th>
-                        <th>Сума</th>
-                        <th>Дата</th>
+                        <th>ПІБ працівника</th>
+                        <th>Сума (грн.)</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
                     <tr>
-                        <td colspan="3" class="empty-state">Немає даних</td>
+                        <td colspan="3" class="empty-state">Завантаження даних...</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="footer">
+            <p>Всього записів: <span id="totalCount">0</span></p>
         </div>
     </div>
 
