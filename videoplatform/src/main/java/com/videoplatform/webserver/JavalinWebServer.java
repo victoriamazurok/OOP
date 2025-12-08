@@ -13,8 +13,8 @@ public class JavalinWebServer {
 
     public void start() {
         Javalin app = Javalin.create().start(7000);
-        app.get("/paychecks", ctx -> {
-            ctx.json(videoService.getPaychecks());
+        app.get("/videos", ctx -> {
+            ctx.json(videoService.getAllVideos());
         });
     }
 }

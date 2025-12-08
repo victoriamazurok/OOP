@@ -3,7 +3,7 @@ package com.videoplatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.videoplatform.webserver.PayrollWebView;
+import com.videoplatform.webserver.VideoplatformWebView;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,9 +16,8 @@ public class VideoplatformModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(String.class).toInstance("YouTube Premier");
-        bind(PaymentService.class).in(Singleton.class);
-        bind(PayrollController.class).in(Singleton.class);
-        bind(PayrollWebView.class).in(Singleton.class);
+        bind(VideoplatformController.class).in(Singleton.class);
+        bind(VideoplatformWebView.class).in(Singleton.class);
     }
 
     @Provides

@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Система управління зарплатою</title>
+    <title>Система управління відео</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Квитанції про зарплату</h1>
-        <p class="subtitle">Список всіх виплачених квитанцій</p>
+        <h1>Список видео</h1>
+        <p class="subtitle">Всі доступні видео на платформі</p>
+
+        <div id="message" class="message"></div>
 
         <div class="table-container">
-            <table id="paychecks-table">
+            <table id="videos-table">
                 <thead>
                     <tr>
                         <th>№</th>
-                        <th>ПІБ працівника</th>
-                        <th>Сума (грн.)</th>
+                        <th>Назва видео</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
                     <tr>
-                        <td colspan="3" class="empty-state">Завантаження даних...</td>
+                        <td colspan="2" class="empty-state">Завантаження даних...</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="footer">
-            <p>Всього записів: <span id="totalCount">0</span></p>
+            <p>Всього видео: <span id="totalCount">0</span></p>
         </div>
     </div>
 

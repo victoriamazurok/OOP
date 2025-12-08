@@ -2,24 +2,23 @@
  * Динамічна URL API для роботи як локально, так і з GitHub Codespace
  * Якщо запускається локально (localhost), використовується http://localhost:8080
  * Якщо запускається в Codespace, замініть на URL вашого Codespace
- * Приклад: https://ubiquitous-fiesta-jj9jjx9wrr3qv7g-8080.app.github.dev
  */
 const API_URL = window.location.hostname.includes('localhost') 
     ? 'http://localhost:8080'
     : window.location.origin;
 
 /**
- * Завантажує дані про квитанції з сервера та відображає їх у таблиці
+ * Завантажує дані про видео з сервера та відображає їх у таблиці
  */
 document.addEventListener('DOMContentLoaded', () => {
-    loadPaychecks();
+    loadVideos();
 });
 
 /**
- * Завантажує всі квитанції про зарплату з API
+ * Завантажує всі видео з API
  */
-function loadPaychecks() {
-    const tableBody = document.querySelector('#paychecks-table tbody');
+function loadVideos() {
+    const tableBody = document.querySelector('#tableBody');
     const totalCountElement = document.querySelector('#totalCount');
     const messageElement = document.querySelector('#message');
 
@@ -27,47 +26,46 @@ function loadPaychecks() {
     messageElement.textContent = '';
     tableBody.innerHTML = '';
 
-    fetch(`${API_URL}/paychecks`)
+    fetch(`${API_URL}/videos`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
-        .then(paychecks => {
-            console.log('Отримано квитанцій:', paychecks.length);
+        .then(videos => {
+            console.log('Отримано видео:', videos.length);
 
-            if (!paychecks || paychecks.length === 0) {
+            if (!videos || videos.length === 0) {
                 const emptyRow = document.createElement('tr');
-                emptyRow.innerHTML = `<td colspan="3" class="empty-state">Немає даних</td>`;
+                emptyRow.innerHTML = `<td colspan="2" class="empty-state">Немає даних</td>`;
                 tableBody.appendChild(emptyRow);
                 totalCountElement.textContent = '0';
                 return;
             }
 
-            // Додаємо кожну квитанцію у таблицю
-            paychecks.forEach((paycheck, index) => {
+            // Додаємо кожне видео у таблицю
+            videos.forEach((video, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="text-center">${index + 1}</td>
-                    <td>${escapeHtml(paycheck.name || 'Невідомо')}</td>
-                    <td class="text-right">${formatCurrency(paycheck.amount)}</td>
+                    <td>${escapeHtml(video.title || 'Невідомо')}</td>
                 `;
                 tableBody.appendChild(row);
             });
 
             // Оновлюємо кількість записів
-            totalCountElement.textContent = paychecks.length;
+            totalCountElement.textContent = videos.length;
 
             // Показуємо повідомлення про успіх
-            messageElement.textContent = `Успішно завантажено ${paychecks.length} квитанцій`;
+            messageElement.textContent = `Успішно завантажено ${videos.length} видео`;
             messageElement.className = 'message success';
         })
         .catch(error => {
-            console.error('Помилка при завантаженні квитанцій:', error);
+            console.error('Помилка при завантаженні видео:', error);
 
             const emptyRow = document.createElement('tr');
-            emptyRow.innerHTML = `<td colspan="3" class="empty-state">Помилка при завантаженні даних</td>`;
+            emptyRow.innerHTML = `<td colspan="2" class="empty-state">Помилка при завантаженні даних</td>`;
             tableBody.appendChild(emptyRow);
 
             // Показуємо повідомлення про помилку
@@ -78,24 +76,7 @@ function loadPaychecks() {
 }
 
 /**
- * Форматує число як валюту
- * @param {number} amount сума
- * @returns {string} відформатована сума з символом грн.
- */
-function formatCurrency(amount) {
-    if (typeof amount !== 'number') {
-        return 'Невалідна сума';
-    }
-    return new Intl.NumberFormat('uk-UA', {
-        style: 'currency',
-        currency: 'UAH',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    }).format(amount);
-}
-
-/**
- * Екранює HTML символи для безпеки
+ * Екранує HTML символи для безпеки
  * @param {string} text текст для екранування
  * @returns {string} екранований текст
  */
