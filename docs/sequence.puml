@@ -1,14 +1,67 @@
 sequenceDiagram
-    participant Глядач
-    participant Автор
-    participant Модератор
-    participant Система
-
-    Глядач->>Автор: Запит на підписку
-    Автор->>Система: Підписка на прем'єру
-    Система->>Глядач: Підтвердження підписки
-
-    Глядач->>Контент: Перегляд відео
-    Автор->>Модератор: Повідомлення про порушення
-    Модератор->>Система: Блокування порушення
-    Система->>Модератор: Підтвердження блокування
+    participant Application
+    participant PremierSystem
+    participant Viewer1 as Viewer
+    participant Author
+    participant Moderator
+    participant Content
+    
+    Application->>PremierSystem: new PremierSystem("YouTube Premier")
+    
+    rect rgb(200, 150, 255)
+    Note over Application: СЦЕНА 1: Реєстрація користувачів
+    Application->>Viewer1: new Viewer(name, email)
+    Application->>Author: new Author(name, email, channel)
+    Application->>Moderator: new Moderator(name, email, department)
+    Application->>PremierSystem: RegisterUser(viewer)
+    Application->>PremierSystem: RegisterUser(author)
+    Application->>PremierSystem: RegisterUser(moderator)
+    end
+    
+    rect rgb(200, 200, 150)
+    Note over Application: СЦЕНА 2: Публікація контенту
+    Application->>Content: new Content(title, description, author)
+    Application->>PremierSystem: PublishContent(content)
+    Application->>Author: PublishContent(content)
+    end
+    
+    rect rgb(150, 200, 255)
+    Note over Application: СЦЕНА 3: Планування прем'єри
+    Application->>Author: SchedulePremiere(content)
+    Application->>Author: StartChat(topic)
+    end
+    
+    rect rgb(200, 255, 150)
+    Note over Application: СЦЕНА 4: Взаємодія глядачів
+    Application->>Viewer1: Subscribe()
+    Application->>Viewer1: WatchContent(content)
+    Viewer1->>Content: AddView()
+    Application->>Viewer1: CommentOnContent(comment)
+    Application->>Content: AddComment(viewer, comment)
+    end
+    
+    rect rgb(255, 200, 150)
+    Note over Application: СЦЕНА 5: Модерація контенту
+    Application->>Moderator: ModerateChat(message)
+    Application->>Moderator: BlockSpam(content)
+    Application->>Moderator: DeleteInappropriateComment(comment)
+    end
+    
+    rect rgb(255, 150, 150)
+    Note over Application: СЦЕНА 6: Поліморфізм
+    Application->>Viewer1: PerformAction()
+    Application->>Author: PerformAction()
+    Application->>Moderator: PerformAction()
+    end
+    
+    rect rgb(150, 255, 200)
+    Note over Application: СЦЕНА 7: Апеляція
+    Application->>Author: SubmitAppeal(reason)
+    end
+    
+    rect rgb(200, 255, 200)
+    Note over Application: ЗАВЕРШЕННЯ: Статистика
+    Application->>PremierSystem: PrintStatistics()
+    Application->>PremierSystem: PrintUsersInfo()
+    Application->>PremierSystem: PrintContentInfo()
+    end

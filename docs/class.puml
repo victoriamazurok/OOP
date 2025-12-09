@@ -1,29 +1,111 @@
 classDiagram
-    class Глядач {
-        +String ім'я
-        +підписка()
-        +перегляд()
+    direction TB
+    
+    class Application {
+        -system: PremierSystem
+        +main(): void
+        -initializeSystem(): void
+        -registerUsers(): void
+        -publishContent(): void
+        -runInteractions(): void
+        -displayStatistics(): void
     }
-
-    class Автор {
-        +String ім'я
-        +плануватиПрем'єру()
-        +запуститиЧат()
-        +податиАпеляцію()
+    
+    class PremierSystem {
+        -Users: List~User~
+        -Content: List~Content~
+        -SystemName: string
+        +RegisterUser(user: User): void
+        +PublishContent(content: Content): void
+        +GetAllUsers(): List~User~
+        +GetAllContent(): List~Content~
+        +PrintStatistics(): void
+        +PrintUsersInfo(): void
+        +PrintContentInfo(): void
     }
-
-    class Модератор {
-        +String ім'я
-        +блокуватиСпам()
-        +модеруватиЧат()
-        +модеруватиКонтент()
+    
+    class User {
+        <<abstract>>
+        #Name: string
+        #Email: string
+        +GetName(): string
+        +GetEmail(): string
+        +PerformAction(): void*
+        +NotifySystem(message: string): void
     }
-
-    class Контент {
-        +String назва
-        +показати()
+    
+    class Viewer {
+        -Subscribed: bool
+        -WatchedCount: int
+        +Subscribe(): void
+        +WatchContent(content: Content): void
+        +CommentOnContent(comment: string): void
+        +IsSubscribed(): bool
+        +GetWatchedCount(): int
+        +PerformAction(): void
     }
-
-    Глядач --> Контент
-    Автор --> Контент
-    Модератор --> Контент
+    
+    class Author {
+        -PublishedCount: int
+        -Channel: string
+        +SchedulePremiere(content: Content): void
+        +StartChat(topic: string): void
+        +SubmitAppeal(reason: string): void
+        +PublishContent(content: Content): void
+        +GetChannel(): string
+        +GetPublishedCount(): int
+        +PerformAction(): void
+    }
+    
+    class Moderator {
+        -BlockedCount: int
+        -Department: string
+        +BlockSpam(content: string): void
+        +ModerateChat(message: string): void
+        +DeleteInappropriateComment(comment: string): void
+        +GetDepartment(): string
+        +GetBlockedCount(): int
+        +PerformAction(): void
+    }
+    
+    class Content {
+        -Title: string
+        -Description: string
+        -Author: string
+        -ViewCount: int
+        -CommentCount: int
+        +GetTitle(): string
+        +GetDescription(): string
+        +GetAuthor(): string
+        +GetViewCount(): int
+        +GetCommentCount(): int
+        +Display(): void
+        +AddView(): void
+        +AddComment(viewer: string, comment: string): void
+    }
+    
+    interface IEngageable {
+        <<interface>>
+        +Subscribe(): void*
+        +WatchContent(content: Content): void*
+        +CommentOnContent(comment: string): void*
+    }
+    
+    interface IModeratable {
+        <<interface>>
+        +BlockSpam(content: string): void*
+        +ModerateChat(message: string): void*
+        +DeleteInappropriateComment(comment: string): void*
+    }
+    
+    Application --> PremierSystem
+    PremierSystem --> User
+    PremierSystem --> Content
+    User <|-- Viewer
+    User <|-- Author
+    User <|-- Moderator
+    Viewer --|> IEngageable
+    Moderator --|> IModeratable
+    Viewer --> Content
+    Author --> Content
+    Moderator --> Content
